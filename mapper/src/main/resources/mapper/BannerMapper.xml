@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.guet.wushu.mapper.BannerMapper">
+
+    <select id="selectAll" resultType="com.guet.wushu.entity.pojo.Banner">
+        select `id`,`create_time` from banner
+    </select>
+
+    <select id="homeDisplay"  resultType="String">
+        select imag from banner where id in
+        <foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <insert id="insert" parameterType="com.guet.wushu.entity.pojo.Banner">
+        insert into banner (`name`,`imag`,`weight`, `url`,`create_time`) values (#{name},#{imag},#{weight},#{url},#{createTime})
+    </insert>
+</mapper>

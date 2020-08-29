@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.guet.wushu.mapper.WuShuIntroductionMapper">
+    <select id="selectInfoByStudyId" resultType="WuShuIntroduction">
+        select `title`,`content` from wushu_introduction where `study_id` = #{id}
+    </select>
+
+    <select id="selectInfoById" resultType="WuShuIntroduction">
+        select
+            i.i_id,i.click_times,i.content
+        from
+            wushu_introduction i
+        where
+            i_id = #{id}
+    </select>
+
+    <update id="updateNewClickRecord" parameterType="WuShuIntroduction">
+        update
+            wushu_introduction
+        set
+            `click_times` = #{clickTimes}
+        where
+            i_id = #{iId}
+    </update>
+
+    <select id="selectAll" resultType="WuShuIntroduction">
+        select
+            `title`,`click_times`
+        from
+            wushu_introduction
+    </select>
+
+    <insert id="insertNewContent" parameterType="WuShuIntroduction">
+        insert into wushu_introduction (
+        `title`,
+        `content`,
+        `study_id`,
+        `create_time`)
+        values (
+        #{title},
+        #{content},
+        #{studyId},
+        #{createTime}
+        )
+    </insert>
+
+    <update id="updateInfo" parameterType="WuShuIntroduction">
+        update
+        wushu_introduction
+        <trim prefix="set" suffixOverrides=",">
+            <if test="title != null">`title` = #{title},</if>
+            <if test="content != null">`content` = #{content}</if>
+        </trim>
+        where
+        `i_id` = #{iId}
+    </update>
+
+    <delete id="deleteByIds">
+        DELETE from wushu_introduction where i_id in
+        <foreach collection="ids" separator="," open="(" close=")" item="id">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

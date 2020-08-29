@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.guet.wushu.mapper.StudyMapper">
+    <resultMap id="StudyDetailResultMap" type="Study">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+
+        <result column="news" jdbcType="VARCHAR" property="news"/>
+        <result column="image" jdbcType="VARCHAR" property="image"/>
+
+        <collection property="speciesList" column="{id = id}" javaType="List" ofType="WuShuSpecies" fetchType="lazy"
+                    select="com.guet.wushu.mapper.WuShuSpeciesMapper.selectInfoByStudyId">
+        </collection>
+
+        <collection property="cultureList" column="{id = id}" javaType="List" ofType="WuShuCulture" fetchType="lazy"
+                    select="com.guet.wushu.mapper.WuShuCultureMapper.selectInfoByStudyId">
+
+        </collection>
+
+        <collection property="essenceList" column="{id = id}" javaType="List" ofType="WuShuEssence" fetchType="lazy"
+                    select="com.guet.wushu.mapper.WuShuEssenceMapper.selectInfoByStudyId">
+
+        </collection>
+
+        <collection property="introductionsList" column="{id = id}" javaType="List" ofType="WuShuIntroduction" fetchType="lazy"
+                    select="com.guet.wushu.mapper.WuShuIntroductionMapper.selectInfoByStudyId">
+
+        </collection>
+
+    </resultMap>
+    <select id="displayAll" resultMap="StudyDetailResultMap">
+        select u.id,u.news,u.species_list,u.culture_list,u.essence_list,u.introductions_list
+        from study u
+        where u.id = #{id}
+    </select>
+</mapper>
